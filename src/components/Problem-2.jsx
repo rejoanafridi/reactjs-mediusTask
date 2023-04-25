@@ -26,7 +26,7 @@ const Problem2 = () => {
 
 	const handleClose = () => setShowModal(false);
 
-	// search contact hendelere
+	// search contact handler
 	const handleSearch = (e) => {
 		e.preventDefault();
 		const searchContact = async () => {
@@ -46,6 +46,20 @@ const Problem2 = () => {
 
 		setContacts(result.data.results);
 	};
+	// next page paginate
+	let id = 1;
+	const handleNextPage = async () => {
+		function pageNumber(no) {
+			return ++no;
+		}
+
+		const result = await axios.get(
+			`https://contact.mediusware.com/api/contacts/?page=${pageNumber(id)}`
+		);
+
+		setContacts(result.data.results);
+	};
+
 	useEffect(() => {
 		fetchContactData();
 	}, []);
@@ -136,7 +150,18 @@ const Problem2 = () => {
 						</div>
 					</Modal.Body>
 
-					<Modal.Footer></Modal.Footer>
+					<Modal.Footer>
+						<button
+							className="btn btn-lg  text-primary"
+							onClick={handleNextPage}
+							style={{
+								backgroundColor: "#ffff",
+								border: "2px solid #46139f",
+							}}
+						>
+							next page
+						</button>
+					</Modal.Footer>
 				</Modal>
 			</div>
 		</div>
